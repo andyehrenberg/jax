@@ -26,6 +26,7 @@ import jax._src.test_util as jtu
 from jax.experimental.sparse import BCOO, sparsify, todense, SparseTracer
 from jax.experimental.sparse.transform import (
   arrays_to_spvalues, spvalues_to_arrays, sparsify_raw, SparsifyValue, SparsifyEnv)
+from jax.experimental.sparse.util import CuSparseEfficiencyWarning
 
 config.parse_flags_with_absl()
 
@@ -109,6 +110,9 @@ class SparsifyTest(jtu.JaxTestCase):
     M_sparse = BCOO.fromdense(M_dense)
     v = jnp.arange(M_dense.shape[0])
 
+    @jtu.ignore_warning(
+        category=CuSparseEfficiencyWarning,
+        message="bcoo_dot_general GPU lowering requires matrices with sorted indices*")
     @self.sparsify
     def func(x, v):
       return -jnp.sin(jnp.pi * x).T @ (v + 1)

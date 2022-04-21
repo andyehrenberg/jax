@@ -707,7 +707,7 @@ traceback_filtering = config.define_enum_state(
 # TODO(tianjianlu): Removes after providing the information in BCOO meta data.
 bcoo_cusparse_lowering = config.define_bool_state(
     name='jax_bcoo_cusparse_lowering',
-    default=False,
+    default=True,
     help=('Enables lowering BCOO ops to cuSparse.'))
 
 # TODO(mattjj): remove this flag when we ensure we only succeed at trace-staging
